@@ -13,6 +13,7 @@ package io.vertx.core;
 
 import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpClientOptions;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.impl.HttpClientImpl;
 import io.vertx.core.impl.CloseFuture;
 import io.vertx.core.impl.VertxInternal;
@@ -141,7 +142,7 @@ public class VertxTest extends AsyncTestBase {
       closeFuture.onComplete(ar -> closed.set(true));
       HttpClient client = vertx.createHttpClient(new HttpClientOptions().setKeepAlive(false), closeFuture);
       vertx.addCloseHook(closeFuture);
-      client.get(8080, "localhost", "/", onFailure(err -> {}));
+      client.request(HttpMethod.GET, 8080, "localhost", "/", onFailure(err -> {}));
       WeakReference<HttpClient> ref = new WeakReference<>(client);
       closeFuture = null;
       client = null;
